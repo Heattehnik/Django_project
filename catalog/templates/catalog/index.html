@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>
+    Hi, Sky!!!
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name" /><br>
+        <input type="text" name="email" /><br>
+        <textarea name="message"></textarea><br>
+        <input type="submit" value="Отправить">
+
+    </form>
+</h1>
+</body>
+</html>
