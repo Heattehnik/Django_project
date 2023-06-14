@@ -1,21 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Главная</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <style>
+    /* Стили для бокового меню */
+    .sidebar {
+      position: fixed; /* фиксированное положение */
+      top: 0;
+      left: 0;
+      width: 200px; /* ширина меню */
+      height: 100%; /* высота меню */
+      overflow: auto; /* добавить прокрутку */
+    }
+
+    /* Стили для ссылок в меню */
+    .sidebar a {
+      display: block; /* блочное расположение */
+      color: black;
+      padding: 16px; /* отступ */
+      text-decoration: none;
+    }
+
+    /* Выделение активной ссылки */
+    .active {
+      color: white;
+    }
+
+    /* Стили для контента */
+    .content {
+      margin-left: 200px; /* отступ от левой границы меню */
+      padding: 1px 16px; /* отступ от границ */
+    }
+  </style>
 </head>
 <body>
-<h1>
-    Hi, Sky!!!
-    <br>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="name" /><br>
-        <input type="text" name="email" /><br>
-        <textarea name="message"></textarea><br>
-        <input type="submit" value="Отправить">
-
-    </form>
-</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 bg-light sidebar">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">Главная</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contacts">Контакты</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-10 content">
+          <h1>Топ товаров</h1>
+            <p>Самые популярные товары.</p>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card">
+              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
+              <div class="card-body">
+                <h5 class="card-title">Товар 1</h5>
+                <p class="card-text">Описание товара 1</p>
+                <p class="card-price">$19.99</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">
+              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
+              <div class="card-body">
+                <h5 class="card-title">Товар 2</h5>
+                <p class="card-text">Описание товара 2</p>
+                <p class="card-price">$29.99</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">
+              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
+              <div class="card-body">
+                <h5 class="card-title">Товар 3</h5>
+                <p class="card-text">Описание товара 3</p>
+                <p class="card-price">$39.99</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">
+              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
+              <div class="card-body">
+                <h5 class="card-title">Товар 4</h5>
+                <p class="card-text">Описание товара 4</p>
+                <p class="card-price">$49.99</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
