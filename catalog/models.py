@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -27,7 +26,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name='Изменено')
 
     def __str__(self):
-        return f'{self.name}, {self.category}'
+        return f'{self.name}'
 
     class Meta:
         verbose_name = 'Товар'

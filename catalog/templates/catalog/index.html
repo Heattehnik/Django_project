@@ -4,45 +4,17 @@
 {% block content %}
         <p>Самые популярные товары.</p>
         <div class="row">
-          <div class="col-md-3">
-            <div class="card">
-              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
-              <div class="card-body">
-                <h5 class="card-title">Товар 1</h5>
-                <p class="card-text">Описание товара 1</p>
-                <p class="card-price">$19.99</p>
+            {% for object in object_list %}
+              <div class="col-md-3">
+                <div class="card">
+                  <img src="{{ object.preview.url}}" alt="{{ object.name }}">
+                  <div class="card-body">
+                      <a href="/product_card/{{ object.id }}"><h5 class="card-title">{{ object.name }}</h5></a>
+                    <p class="card-text">{{ object.description|truncatechars:100}}</p>
+                    <p class="card-price">{{object.price}}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">
-              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
-              <div class="card-body">
-                <h5 class="card-title">Товар 2</h5>
-                <p class="card-text">Описание товара 2</p>
-                <p class="card-price">$29.99</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">
-              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
-              <div class="card-body">
-                <h5 class="card-title">Товар 3</h5>
-                <p class="card-text">Описание товара 3</p>
-                <p class="card-price">$39.99</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">
-              <img src="https://papik.pro/uploads/posts/2023-02/thumbs/1675866903_papik-pro-p-rezinovaya-utochka-risunok-34.png" alt="Уточка">
-              <div class="card-body">
-                <h5 class="card-title">Товар 4</h5>
-                <p class="card-text">Описание товара 4</p>
-                <p class="card-price">$49.99</p>
-              </div>
-            </div>
-          </div>
+            {% endfor %}
         </div>
 {% endblock content %}
