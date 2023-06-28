@@ -1,0 +1,28 @@
+/* Стили для бокового меню */
+    .sidebar {
+      position: fixed; /* фиксированное положение */
+      top: 0;
+      left: 0;
+      width: 200px; /* ширина меню */
+      height: 100%; /* высота меню */
+      overflow: auto; /* добавить прокрутку */
+    }
+
+    /* Стили для ссылок в меню */
+    .sidebar a {
+      display: block; /* блочное расположение */
+      color: black;
+      padding: 16px; /* отступ */
+      text-decoration: none;
+    }
+
+    /* Выделение активной ссылки */
+    .active {
+      color: white;
+    }
+
+    /* Стили для контента */
+    .content {
+      margin-left: 200px; /* отступ от левой границы меню */
+      padding: 1px 16px; /* отступ от границ */
+    }
