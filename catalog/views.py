@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from catalog.models import Product, Article
 
 
@@ -26,6 +26,12 @@ class ProductDetailView(DetailView):
 
 
 class ArticleCreateView(CreateView):
+    model = Article
+    fields = ('title', 'content',)
+    success_url = reverse_lazy('catalog:articles')
+
+
+class ArticleUpdateView(UpdateView):
     model = Article
     fields = ('title', 'content',)
     success_url = reverse_lazy('catalog:articles')

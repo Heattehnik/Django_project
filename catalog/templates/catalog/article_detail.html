@@ -1,0 +1,13 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+    <div class="col-md-5">
+      <div class="card">
+        <h1>{{ article.title }}</h1>
+          {% if article.preview %}
+        <img src="{{ product.preview.url }}" alt="{{ product.name }}">
+          {% endif %}
+        <p>{{ article.content }}</p>
+        <p>Просмотры: {{ article.views_count }}</p>
+      </div>
+    </div>
+{% endblock %}
