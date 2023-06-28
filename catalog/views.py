@@ -1,16 +1,13 @@
 from django.shortcuts import render, get_object_or_404
-from .forms import ProductForm
-from catalog.models import Product
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
+from catalog.models import Product, Article
 
 
 # Create your views here.
+class ProductListView(ListView):
+    model = Product
 
-def index(request):
-    product_list = Product.objects.all()
-    context = {
-        'object_list': product_list
-    }
-    return render(request, 'catalog/index.html', context)
 
 
 def contacts(request):
@@ -23,6 +20,20 @@ def contacts(request):
     return render(request, 'catalog/contacts.html')
 
 
-def product_card(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, 'catalog/card.html', {'product': product})
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'catalog/card.html'
+
+
+class ArticleCreateView(CreateView):
+    model = Article
+    fields = ('title', 'content',)
+    success_url = reverse_lazy('catalog:articles')
+
+
+class ArticleListView(ListView):
+    model = Article
+
+
+class ArticleDetailedView(DetailView):
+    model = Article

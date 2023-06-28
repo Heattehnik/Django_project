@@ -3,6 +3,16 @@ from django.db import models
 NULLABLE = {'blank': True, 'null': True}
 
 
+class Article(models.Model):
+    title = models.CharField(max_length=50, verbose_name='Заголовок')
+    slug = models.CharField(max_length=150, verbose_name='slug')
+    content = models.TextField(verbose_name='Содержимое')
+    preview = models.ImageField(upload_to='articles/', verbose_name='Превью', **NULLABLE)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
+    is_published = models.BooleanField(default=True)
+    views_count = models.IntegerField(default=0)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание')
