@@ -1,13 +1,22 @@
 {% extends 'catalog/base.html' %}
+{% block title %}{{ object.title }}{% endblock title %}
 {% block content %}
     <div class="col-md-5">
       <div class="card">
-        <h1>{{ article.title }}</h1>
+        <h1>{{ article.title }} ({{ object.slug }})</h1>
           {% if article.preview %}
         <img src="{{ product.preview.url }}" alt="{{ product.name }}">
           {% endif %}
         <p>{{ article.content }}</p>
-        <p>Просмотры: {{ article.views_count }}</p>
+        <div class="card-footer">
+            <p>Просмотры: {{ article.views_count }}</p>
+            {% if object.is_published %}
+            <p>Опубликовано</p>
+            {% else %}
+            <p>Не опубликовано</p>
+            {% endif %}
+        </div>
+
       </div>
     </div>
 {% endblock %}
