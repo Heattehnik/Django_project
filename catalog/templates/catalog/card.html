@@ -4,7 +4,9 @@
     <div class="col-md-5">
       <div class="card">
         <h1>{{ product.name }}</h1>
-        <img src="{{ product.preview.url }}" alt="{{ product.name }}">
+        {% if object.preview%}
+                  <img src="{{ object.preview.url}}" alt="{{ object.name }}">
+                    {% endif %}
         <h6>{{ product.category }}</h6>
         <p>{{ product.description }}</p>
         <p>Цена: {{ product.price }}</p>
