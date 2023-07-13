@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% block title %}Добавить\Редактировать товар{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 {% block content %}
     <div class="col-12">
         <div class="row">
@@ -8,10 +8,7 @@
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{ formset.management_form }}
-                            {% for form in formset.forms %}
-                                {{ form.as_p }}
-                            {% endfor %}
+                            {{ form.as_p }}
                             <button type="submit" class="btn btn-success">
                                 {% if object %}
                                 Сохранить

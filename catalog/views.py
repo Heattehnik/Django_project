@@ -32,6 +32,27 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        product_formset = modelformset_factory(Product, form=ProductForm, extra=1)
+        context_data['title'] = 'Добавить товар'
+        if self.request.method == 'POST':
+            context_data['formset'] = product_formset(self.request.POST)
+        else:
+            context_data['formset'] = product_formset()
+        return context_data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
+
 
 class ProductUpdateView(UpdateView):
     model = Product
@@ -41,6 +62,7 @@ class ProductUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         product_formset = modelformset_factory(Product, form=ProductForm, extra=1)
+        context_data['title'] = 'Редактировать товар'
         if self.request.method == 'POST':
             context_data['formset'] = product_formset(self.request.POST)
         else:
