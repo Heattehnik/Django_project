@@ -4,12 +4,26 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm
-from catalog.models import Product, Article
+from catalog.models import Product, Article, Version
 from pytils.translit import slugify
 
 
 class ProductListView(ListView):
     model = Product
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        active_versions = Version.objects.filter(is_current_version=True).select_related('product')
+        active_products = {version.product_id: version for version in active_versions}
+        for product in queryset:
+            product.active_version = active_products.get(product.id)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        context['products'] = queryset
+        return context
 
 
 def contacts(request):
