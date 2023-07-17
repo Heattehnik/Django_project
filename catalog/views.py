@@ -2,7 +2,7 @@ from django.forms import inlineformset_factory, modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from catalog.services import send_email
 from catalog.forms import ProductForm
 from catalog.models import Product, Article, Version
 from pytils.translit import slugify
@@ -166,6 +166,8 @@ class ArticleDetailedView(DetailView):
         self.object = super().get_object(queryset)
         self.object.views_count += 1
         self.object.save()
+        if self.object.views_count == 100:
+            send_email(self.object.title)
         return self.object
 
 
