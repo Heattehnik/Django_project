@@ -1,5 +1,5 @@
 from django.forms import inlineformset_factory, modelformset_factory
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -46,6 +46,14 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            # User is logged in, so call the parent dispatch method
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            # User is not logged in, so redirect to the login page
+            return redirect('users:login')
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         product_formset = modelformset_factory(Product, form=ProductForm, extra=1)
@@ -62,6 +70,7 @@ class ProductCreateView(CreateView):
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 
@@ -69,6 +78,14 @@ class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            # User is logged in, so call the parent dispatch method
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            # User is not logged in, so redirect to the login page
+            return redirect('users:login')
     
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -92,6 +109,14 @@ class ProductUpdateView(UpdateView):
 class ProductDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:catalog')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            # User is logged in, so call the parent dispatch method
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            # User is not logged in, so redirect to the login page
+            return redirect('users:login')
 
 
 class ArticleCreateView(CreateView):
