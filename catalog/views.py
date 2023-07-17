@@ -7,6 +7,8 @@ from catalog.forms import ProductForm
 from catalog.models import Product, Article, Version
 from pytils.translit import slugify
 
+from catalog.services import send_email
+
 
 class ProductListView(ListView):
     model = Product
@@ -69,7 +71,7 @@ class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
-    
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         product_formset = modelformset_factory(Product, form=ProductForm, extra=1)
@@ -141,6 +143,8 @@ class ArticleDetailedView(DetailView):
         self.object = super().get_object(queryset)
         self.object.views_count += 1
         self.object.save()
+        if self.object.views_count == 100:
+            send_email(self.object.title)
         return self.object
 
 
