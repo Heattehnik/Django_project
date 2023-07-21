@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import inlineformset_factory, modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
@@ -8,7 +10,7 @@ from catalog.models import Product, Article, Version
 from pytils.translit import slugify
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
 
     def get_queryset(self):
@@ -26,6 +28,7 @@ class ProductListView(ListView):
         return context
 
 
+@login_required
 def contacts(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -36,23 +39,16 @@ def contacts(request):
     return render(request, 'catalog/contacts.html')
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/card.html'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.add_product'
     success_url = reverse_lazy('catalog:catalog')
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            # User is logged in, so call the parent dispatch method
-            return super().dispatch(request, *args, **kwargs)
-        else:
-            # User is not logged in, so redirect to the login page
-            return redirect('users:login')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -74,19 +70,12 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.change_product'
     success_url = reverse_lazy('catalog:catalog')
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            # User is logged in, so call the parent dispatch method
-            return super().dispatch(request, *args, **kwargs)
-        else:
-            # User is not logged in, so redirect to the login page
-            return redirect('users:login')
-    
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         product_formset = modelformset_factory(Product, form=ProductForm, extra=1)
@@ -106,20 +95,13 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
+    permission_required = 'product.delete_product'
     success_url = reverse_lazy('catalog:catalog')
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            # User is logged in, so call the parent dispatch method
-            return super().dispatch(request, *args, **kwargs)
-        else:
-            # User is not logged in, so redirect to the login page
-            return redirect('users:login')
 
-
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Article
     fields = ('title', 'content',)
     success_url = reverse_lazy('catalog:articles')
@@ -133,7 +115,7 @@ class ArticleCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Article
     fields = ('title', 'content',)
     # success_url = reverse_lazy('catalog:articles')
@@ -150,7 +132,7 @@ class ArticleUpdateView(UpdateView):
         return reverse('catalog:view_article', args=[self.kwargs.get('pk')])
 
 
-class ArticleListView(ListView):
+class ArticleListView(LoginRequiredMixin, ListView):
     model = Article
 
     def get_queryset(self, *args, **kwargs):
@@ -159,7 +141,7 @@ class ArticleListView(ListView):
         return queryset
 
 
-class ArticleDetailedView(DetailView):
+class ArticleDetailedView(LoginRequiredMixin, DetailView):
     model = Article
 
     def get_object(self, queryset=None):
@@ -171,6 +153,6 @@ class ArticleDetailedView(DetailView):
         return self.object
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Article
     success_url = reverse_lazy('catalog:articles')

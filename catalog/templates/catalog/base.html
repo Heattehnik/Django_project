@@ -13,6 +13,7 @@
         <div class="row">
           <div class="col-md-2 bg-light sidebar">
             <ul class="nav flex-column">
+            {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link active" href="{% url 'catalog:catalog' %}">Главная</a>
               </li>
@@ -22,6 +23,7 @@
               <li class="nav-item">
                 <a class="nav-link active" href="{% url 'catalog:articles' %}">Блог</a>
               </li>
+            {% endif %}
             {% if user.is_authenticated %}
                  <li class="nav-item">
                 <a class="nav-link active" href="{% url 'users:profile' %}">Профиль</a>
